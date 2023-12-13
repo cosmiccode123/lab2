@@ -108,7 +108,7 @@ void newton(double* sol, double** Jac)
     int NIT = 5;
     int d1max = 1, d2max = 1, f1, f2, x1, x2;
 
-    while (d1max > e && d2max > e || NIT > 0)
+    while (d1max > e && d2max > e /*|| NIT > 0*/)
     {
         x1 = sol[0];
         x2 = sol[1];
@@ -121,6 +121,14 @@ void newton(double* sol, double** Jac)
 
         NIT--;
 
+
+        if (NIT <= 0)
+        {
+            cout << "Iteration limit" << endl;
+            break;
+        }
+
+
         // Критерий выхода
 
         f1 = abs(func1(sol));
@@ -130,13 +138,27 @@ void newton(double* sol, double** Jac)
         {
             d1max = f2;
         }
-        x1 = abs((sol[0] - x1) / sol[0]);
-        x2 = abs((sol[1] - x2) / sol[1]);
+
+        if (sol[0] < 1)
+        {
+            x1 = abs(sol[0] - x1);
+        }
+        else x1 = abs((sol[0] - x1) / sol[0]);
+
+        if (sol[1] < 1)
+        {
+            x2 = abs(sol[1] - x2);
+        }
+        else x2 = abs((sol[1] - x2) / sol[1]);
+
         d2max = x1;
         if (x2 > x1)
         {
             d2max = x2;
         }
+
+
+
         //cout << endl << "Текущие" << endl << "x1 = " << sol[0] << endl << "x2 = " << sol[1] << endl << endl;
     }
 
@@ -160,7 +182,7 @@ void newton(double* sol, double** Jac, double M)
     int NIT = 5;
     int d1max = 1, d2max = 1, f1, f2, x1, x2;
 
-    while (d1max > e && d2max > e || NIT > 0)
+    while (d1max > e && d2max > e /*&& NIT > 0*/)
     {
         x1 = sol[0];
         x2 = sol[1];
@@ -172,6 +194,13 @@ void newton(double* sol, double** Jac, double M)
         sol[1] -= (Jac[1][0] * func1(sol) + Jac[1][1] * func2(sol));
         NIT--;
 
+
+        if (NIT <= 0)
+        {
+            cout << "Iteration limit" << endl;
+            break;
+        }
+
         // Критерий выхода
 
         f1 = abs(func1(sol));
@@ -181,13 +210,25 @@ void newton(double* sol, double** Jac, double M)
         {
             d1max = f2;
         }
-        x1 = abs((sol[0] - x1) / sol[0]);
-        x2 = abs((sol[1] - x2) / sol[1]);
+
+        if (sol[0] < 1)
+        {
+            x1 = abs(sol[0] - x1);
+        }
+        else x1 = abs((sol[0] - x1) / sol[0]);
+
+        if (sol[1] < 1)
+        {
+            x2 = abs(sol[1] - x2);
+        }
+        else x2 = abs((sol[1] - x2) / sol[1]);
+
         d2max = x1;
         if (x2 > x1)
         {
             d2max = x2;
         }
+
 
         //cout << endl << "Текущие" << endl << "x1 = " << sol[0] << endl << "x2 = " << sol[1] << endl << endl;
     }
