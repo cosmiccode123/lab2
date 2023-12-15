@@ -182,7 +182,7 @@ void newton(double* sol, double** Jac, double M)
     int NIT = 5;
     int d1max = 1, d2max = 1, f1, f2, x1, x2;
 
-    while (d1max > e && d2max > e /*&& NIT > 0*/)
+    while (d1max > e || d2max > e /*&& NIT > 0*/)
     {
         x1 = sol[0];
         x2 = sol[1];
